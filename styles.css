@@ -2,6 +2,78 @@
   padding: 0;
   margin: 0;
 }
-.canvas {
+body {
+  background: #18161c;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+#canvas {
   position: relative;
+}
+.tile {
+  position: absolute;
+  background-color: #0000004d;
+}
+.apple {
+  background-color: #77FF33;
+  animation: appling 2s infinite ease-in-out;
+  font-size: 26px;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* color: white; */
+}
+.shadow {
+  animation: shadowing 2s ease-in-out;
+}
+@keyframes shadowing {
+  0% {
+    background-color: #000000AA;
+  }
+  100% {
+    background-color: #0000004d;
+  }
+}
+
+@keyframes appling {
+  0% {
+    transform: scale(100%);
+    /* box-shadow: 0 0 10px rgba(59, 255, 232, 0.7),
+    0 0 20px rgba(59, 255, 232, 0.7),
+    0 0 20px rgba(59, 255, 232, 0.7); */
+    box-shadow: 0 0 10px rgb(59, 255, 75),
+    0 0 30px rgb(59, 255, 75);
+  }
+  50% {
+    transform: scale(70%);
+    background-color: rgb(59, 255, 232);
+    box-shadow: 0 0 10px rgb(59, 255, 232),
+    0 0 30px rgb(59, 255, 232);
+  }
+  100% {
+    transform: scale(100%);
+    box-shadow: 0 0 10px rgb(59, 255, 75),
+    0 0 30px rgb(59, 255, 75);
+  }
+}
+
+#word {
+  display: flex;
+  gap: 5px;
+  margin: 10px;
+}
+.letter {
+  padding: 5px 8px;
+  background-color: #00000077;
+  font-weight: 700;
+  color: #ffffff24;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.letter.active {
+  color: #ffffff;
 }
