@@ -115,7 +115,7 @@ const checkDeath = () => {
   // if(snake[0].x < 0 || snake[0].x >= size || snake[0].y < 0 || snake[0].y >= size) {
   //   alive = false;
   //   return;
-  // }
+  // } //BORDERS
   for(let i = 1; i < snake.length - 1; i++) {
     if(snake[i].x === snake[0].x && snake[i].y === snake[0].y) {
       alive = false;
@@ -138,7 +138,22 @@ for(let y = 0; y < size; y++) {
 
 const generateApples = () => {
   for(let i = 0; i < word.length; i++) {
-    const rand = [Math.floor(Math.random() * size), Math.floor(Math.random() * size)]
+    let rand = [Math.floor(Math.random() * size), Math.floor(Math.random() * (size-1) + 1)];
+    let ok = false;
+    if(i != 0) {
+      while(!ok) {
+        ok = true;
+        rand = [Math.floor(Math.random() * size), Math.floor(Math.random() * (size-1) + 1)];
+        console.log(apples.length)
+        for(let i = 0; i < apples.length; i++) {
+          if(rand[0] === apples[i].x && rand[1] === apples[i].y) {
+            ok = false;
+          }
+        }
+        if(ok) break;
+      }
+    }
+    
     const tile = createBlock(rand[0], rand[1]);
     tile.classList.add('apple');
     tile.innerHTML = word[i];
@@ -159,6 +174,6 @@ const animate = () => {
 
   setTimeout(() => {
     animate();
-  }, 200);
+  }, 500);
 }
 animate();
