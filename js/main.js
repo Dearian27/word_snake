@@ -15,7 +15,7 @@ for(let i=0; i<word.length; i++) {
 }
 
 const size = 10;
-const cellSize = 30;
+const cellSize = 50;
 const gap = 5;
 
 const containerSize = cellSize * size + gap * (size-1);
@@ -73,29 +73,49 @@ const moveSnake = () => {
   }
   snake[0].y += y;
   snake[0].x += x;
-
+  if(snake[0].y < 0) {
+    snake[0].y = size - 1;
+  } else if(snake[0].y > size - 1) {
+    snake[0].y = 0;
+  } else if(snake[0].x < 0) {
+    snake[0].x = size - 1;
+  } else if(snake[0].x > size - 1) {
+    snake[0].x = 0;
+  }
   controls.direction = controls.current;
 }
-const letterCheck = () => {
+const checks = (last) => {
   for(let i = 0; i < apples.length; i++) {
     if(snake[0].x == apples[i].x && snake[0].y == apples[i].y) {
       if(word[currentLetter] == apples[i].block.innerHTML) {
-        letters[currentLetter].classList.add('active');
+        
+        let formerCL = currentLetter;
+        let toDelete = apples[i].block;
+        toDelete.classList.add('moving');
+        toDelete.style.left = '50%';
+        toDelete.style.top = '0px';
+        setTimeout(() => {
+          letters[formerCL].classList.add('active');
+          canvas.removeChild(toDelete);
+        }, 2000)
+        
         currentLetter++;
-        canvas.removeChild(apples[i].block);
         apples.splice(i, 1);
+        snake.push({x: last.x, y: last.y});
+        return;
       } else {
         updateSnake();
         alive = false;
       }
     }
   }
+  checkDeath();
 }
 const checkDeath = () => {
-  if(snake[0].x < 0 || snake[0].x >= size || snake[0].y < 0 || snake[0].y >= size) {
-    alive = false;
-    return;
-  }
+  // if(snake[0].x < 0 || snake[0].x >= size || snake[0].y < 0 || snake[0].y >= size) {
+  //   alive = false;
+  //   return;
+  // }
   for(let i = 1; i < snake.length - 1; i++) {
     if(snake[i].x === snake[0].x && snake[i].y === snake[0].y) {
       alive = false;
@@ -132,13 +152,13 @@ generateApples();
 
 
 const animate = () => {
+  let last = snake[snake.length - 1];
   if(alive)moveSnake();
-  letterCheck();
-  checkDeath();
+  checks(last);
   if(alive)updateSnake();
 
   setTimeout(() => {
     animate();
-  }, 300);
+  }, 200);
 }
 animate();

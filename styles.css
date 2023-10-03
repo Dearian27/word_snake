@@ -26,6 +26,12 @@ body {
   justify-content: center;
   align-items: center;
   /* color: white; */
+  transition: 2s ease-in-out;
+}
+.apple.moving {
+  animation: none;
+  box-shadow: 0 0 10px rgb(59, 255, 75),
+    0 0 30px rgb(59, 255, 75);
 }
 .shadow {
   animation: shadowing 2s ease-in-out;
