@@ -37,10 +37,17 @@ const createBlock = (x, y) => {
   return tile;
 }
 const updateSnake = () => {
+  const minC = 255;
+  const maxC = 200;
+  const lerp = (a, b, t) => {
+    return a + (b-a) * t;
+  }
+
   for(const [index, s] of snake.entries()) {
     if(!s.block) {
       const tile = createBlock(s.x, s.y);
-      tile.style.backgroundColor = 'white';
+      let color = lerp(minC, maxC, index/(snake.length-1));
+      tile.style.backgroundColor = `rgb(${color}, ${color}, ${color})`;
       if(index === 0) {
         tile.classList.add('head');
       }
@@ -211,6 +218,9 @@ retryBtn.addEventListener('click', () => {
   })
   snake.forEach((snake) => {
     canvas.removeChild(snake.block)
+  })
+  apples.forEach((apple) => {
+    canvas.removeChild(apple.block)
   })
   modalWin.classList.remove('open');
   initGame();
