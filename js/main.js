@@ -4,16 +4,20 @@ const modalWin = document.getElementById('modal');
 const retryBtn = document.getElementById('retry');
 const message = document.getElementById('message');
 
-const words = ['CAT', 'GINGER', 'HELP', 'HELLO'];
+const words = ['SELF-CONFIDENCE', 'MISTRUST', 'INFERIORITY', 'RECOGNITION', 'GENERATIVITY', 'STAGNATION', 'SELF-DOUBT', 'INDUSTRIOUS'];
 let currentWord = 0;
 let word = words[0];
 let letters = [];
 let apples = [];
 let currentLetter = 0;
 
-const size = 10;
-const cellSize = 50;
+const size = 13;
+let cellSize = 40;
 const gap = 5;
+
+if (window.innerWidth < 1600) {
+  cellSize = 35;
+}
 
 const containerSize = cellSize * size + gap * (size-1);
 canvas.style.width = `${containerSize}px`; 
@@ -23,6 +27,8 @@ const cells = [];
 
 let snake = [{x: 3, y: 0, block: null}, {x: 2, y: 0, block: null}, {x: 1, y: 0, block: null}, {x: 0, y: 0, block: null}];
 let alive = true;
+
+
 
 window.addEventListener('resize', () => {});
 
