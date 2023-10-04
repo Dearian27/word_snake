@@ -17,6 +17,29 @@ body {
   position: absolute;
   background-color: #0000004d;
 }
+.head {
+  animation: shining 2s ease-in-out infinite;
+  box-shadow: 0 0 10px rgb(238, 255, 239),
+    /* 0 0 30px rgb(238, 255, 239), */
+    0 0 50px rgba(238, 255, 239, 0.8);
+}
+@keyframes shining {
+  0% {
+    box-shadow: 0 0 10px rgb(238, 255, 239),
+    /* 0 0 30px rgb(238, 255, 239), */
+    0 0 50px rgba(238, 255, 239, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 10px rgb(238, 255, 239),
+    /* 0 0 30px rgb(238, 255, 239), */
+    0 0 50px rgba(238, 255, 239, 0.3);
+  }
+  100% {
+    box-shadow: 0 0 10px rgb(238, 255, 239),
+    /* 0 0 30px rgb(238, 255, 239), */
+    0 0 50px rgba(238, 255, 239, 0.7);
+  }
+}
 .apple {
   background-color: #77FF33;
   animation: appling 2s infinite ease-in-out;
@@ -82,5 +105,63 @@ body {
 }
 
 .letter.active {
+  animation: active 2s linear;
   color: #ffffff;
+}
+@keyframes active {
+  0% {
+    color: #ffffff24;
+  }
+  75% {
+    color: #ffffff24;
+  }
+  100% {
+    color: #ffffff;
+  }
+}
+
+.modal {
+  text-transform: uppercase;
+  position: absolute;
+  left: auto;
+  top: auto;
+  height: 300px;
+  width: 300px;
+  border-radius: 10px;
+  color: white;
+  background-color: #18161c;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+.modal button {
+  cursor: pointer;
+  border: none;
+  border: 2px #77FF33 solid;
+  background-color: transparent;
+  border-radius: 50px;
+  padding: 10px 30px 13px 30px;
+  color: white;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-size: 20px;
+  box-shadow: 0px 0px 15px #77FF33;
+}
+.modal span {
+  color: #77FF33;
+}
+.modal.open {
+  display: flex;
+  animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }

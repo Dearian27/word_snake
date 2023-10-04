@@ -1,18 +1,15 @@
 const canvas = document.getElementById('canvas');
 const wordHTML = document.getElementById('word');
+const modalWin = document.getElementById('modal');
+const retryBtn = document.getElementById('retry');
+const message = document.getElementById('message');
 
-const word = 'CONCAT';
-const letters = [];
-const apples = [];
+const words = ['CAT', 'GINGER', 'HELP', 'HELLO'];
+let currentWord = 0;
+let word = words[0];
+let letters = [];
+let apples = [];
 let currentLetter = 0;
-
-for(let i=0; i<word.length; i++) {
-  const letter = document.createElement('div');
-  letter.classList.add('letter');
-  letter.innerHTML = word[i];
-  letters[i] = letter;
-  wordHTML.appendChild(letter);
-}
 
 const size = 10;
 const cellSize = 50;
@@ -21,14 +18,11 @@ const gap = 5;
 const containerSize = cellSize * size + gap * (size-1);
 canvas.style.width = `${containerSize}px`; 
 canvas.style.height = `${containerSize}px`;
-// canvas.style.backgroundColor = 'black';
-
 const cells = [];
-const objects = [];
-for(let y = 0; y < size; y++) {
-  objects[y] = [];
-}
 
+
+let snake = [{x: 3, y: 0, block: null}, {x: 2, y: 0, block: null}, {x: 1, y: 0, block: null}, {x: 0, y: 0, block: null}];
+let alive = true;
 
 window.addEventListener('resize', () => {});
 
@@ -43,10 +37,13 @@ const createBlock = (x, y) => {
   return tile;
 }
 const updateSnake = () => {
-  for(s of snake) {
+  for(const [index, s] of snake.entries()) {
     if(!s.block) {
       const tile = createBlock(s.x, s.y);
       tile.style.backgroundColor = 'white';
+      if(index === 0) {
+        tile.classList.add('head');
+      }
       s.block = tile;
     } else {
       s.block.style.top = `${cellSize * s.y + gap * s.y}px`;
@@ -84,6 +81,7 @@ const moveSnake = () => {
   }
   controls.direction = controls.current;
 }
+
 const checks = (last) => {
   for(let i = 0; i < apples.length; i++) {
     if(snake[0].x == apples[i].x && snake[0].y == apples[i].y) {
@@ -94,8 +92,8 @@ const checks = (last) => {
         toDelete.classList.add('moving');
         toDelete.style.left = '50%';
         toDelete.style.top = '0px';
+        letters[formerCL].classList.add('active');
         setTimeout(() => {
-          letters[formerCL].classList.add('active');
           canvas.removeChild(toDelete);
         }, 2000)
         
@@ -124,9 +122,6 @@ const checkDeath = () => {
   }
 }
 
-const snake = [{x: 5, y: 0, block: null}, {x: 4, y: 0, block: null}, {x: 3, y: 0, block: null}, {x: 2, y: 0, block: null}, {x: 1, y: 0, block: null}, {x: 0, y: 0, block: null}];
-let alive = true;
-
 for(let y = 0; y < size; y++) {
   cells[y] = [];
   for(let x = 0; x < size; x++) {
@@ -134,7 +129,6 @@ for(let y = 0; y < size; y++) {
     cells[y][x] = tile;
   }
 }
-
 
 const generateApples = () => {
   for(let i = 0; i < word.length; i++) {
@@ -144,7 +138,6 @@ const generateApples = () => {
       while(!ok) {
         ok = true;
         rand = [Math.floor(Math.random() * size), Math.floor(Math.random() * (size-1) + 1)];
-        console.log(apples.length)
         for(let i = 0; i < apples.length; i++) {
           if(rand[0] === apples[i].x && rand[1] === apples[i].y) {
             ok = false;
@@ -160,20 +153,68 @@ const generateApples = () => {
     apples[i] = {x: rand[0], y: rand[1], block: tile};
   }
 }
-generateApples();
-
-
-
-
 
 const animate = () => {
   let last = snake[snake.length - 1];
   if(alive)moveSnake();
   checks(last);
   if(alive)updateSnake();
+  else showModal(false);
+  if(apples.length === 0) {
+    showModal(true);
+  }
 
-  setTimeout(() => {
-    animate();
-  }, 500);
+  if(alive) {
+    setTimeout(() => {
+      animate();
+    }, 500);
+  }
 }
-animate();
+
+const initGame = () => {
+  letters = [];
+  apples = [];
+  currentLetter = 0;
+  word = words[currentWord];
+  alive = true;
+  snake = [ {x: 2, y: 0, block: null}, {x: 1, y: 0, block: null}, {x: 0, y: 0, block: null}];
+
+  for(let i=0; i<word.length; i++) {
+    const letter = document.createElement('div');
+    letter.classList.add('letter');
+    letter.innerHTML = word[i];
+    letters[i] = letter;
+    wordHTML.appendChild(letter);
+  }
+  generateApples();
+  animate();
+}
+initGame();
+
+const showModal = (success) => {
+  if(success) {
+    alive = false;
+    message.innerHTML = 'You win!';
+    retryBtn.innerHTML = 'Next';
+    currentWord++;
+  } else {
+    message.innerHTML = 'You lose!';
+    retryBtn.innerHTML = 'Try again';
+  }
+  modalWin.classList.add('open');
+  controls.direction = 'right';
+  controls.current = 'right';
+};
+retryBtn.addEventListener('click', () => {
+  letters.forEach((letter) => {
+    wordHTML.removeChild(letter);
+  })
+  snake.forEach((snake) => {
+    canvas.removeChild(snake.block)
+  })
+  modalWin.classList.remove('open');
+  initGame();
+})
+
+
+
