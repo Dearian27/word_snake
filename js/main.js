@@ -4,7 +4,7 @@ const modalWin = document.getElementById('modal');
 const retryBtn = document.getElementById('retry');
 const message = document.getElementById('message');
 
-const words = ['SELF-CONFIDENCE', 'MISTRUST', 'INFERIORITY', 'RECOGNITION', 'GENERATIVITY', 'STAGNATION', 'SELF-DOUBT', 'INDUSTRIOUS'];
+const words = ['GINGER', 'MELON', 'PEACH', 'APPLE', 'CABBAGE', 'BEET', 'PEAR', 'INDUSTRIOUS'];
 let currentWord = 0;
 let word = words[0];
 let letters = [];
@@ -74,7 +74,6 @@ const moveSnake = () => {
     case "right": x = 1; break;
   }
 
-  //TODO (snake.length-1 / 20) * x SNAKE BODY COLORING
   cells[snake[snake.length-1].y][snake[snake.length-1].x].classList.add('shadow');
   
   for(let i = snake.length - 1; i >= 1; i--) {
@@ -188,6 +187,9 @@ const initGame = () => {
   letters = [];
   apples = [];
   currentLetter = 0;
+  if(currentWord >= words.length) {
+    currentWord = 0;
+  }
   word = words[currentWord];
   alive = true;
   snake = [ {x: 2, y: 0, block: null}, {x: 1, y: 0, block: null}, {x: 0, y: 0, block: null}];
@@ -201,6 +203,8 @@ const initGame = () => {
   }
   generateApples();
   animate();
+
+  console.log(currentLetter)
 }
 initGame();
 
