@@ -14,3 +14,40 @@ document.onkeydown = (event) => {
     case 39: if(controls.direction !== 'left') controls.current = 'right'; break; // D
   }
 }
+
+let startX, startY, endX, endY;
+
+canvas.addEventListener('touchstart', (e) => {
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+});
+
+canvas.addEventListener('touchmove', (e) => {
+    e.preventDefault(); // Забороніть прокрутку сторінки при свайпі
+    endX = e.touches[0].clientX;
+    endY = e.touches[0].clientY;
+
+    const deltaX = endX - startX;
+    const deltaY = endY - startY;
+
+    // Опрацювання зміни координат пальця для керування грою
+    // Наприклад, зміна напрямку руху гравця у грі Змійка
+});
+
+if (Math.abs(deltaX) > Math.abs(deltaY)) {
+  if (deltaX > 0) {
+    controls.current = 'right';
+    // Свайп вправо
+  } else {
+    controls.current = 'left';
+    // Свайп вліво
+  }
+} else {
+  if (deltaY > 0) {
+    controls.current = 'down';
+    // Свайп вниз
+  } else {
+    controls.current = 'up';
+      // Свайп вгору
+  }
+}
