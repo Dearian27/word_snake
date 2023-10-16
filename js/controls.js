@@ -35,22 +35,22 @@ window.addEventListener('touchmove', (e) => {
 
     // Опрацювання зміни координат пальця для керування грою
     // Наприклад, зміна напрямку руху гравця у грі Змійка
+    
+    if (Math.abs(deltaX) > Math.abs(deltaY)) {
+      if (deltaX > 0) {
+        controls.current = 'right';
+        // Свайп вправо
+      } else {
+        controls.current = 'left';
+        // Свайп вліво
+      }
+    } else {
+      if (deltaY > 0) {
+        controls.current = 'down';
+        // Свайп вниз
+      } else {
+        controls.current = 'up';
+          // Свайп вгору
+      }
+    }
 });
-
-if (Math.abs(deltaX) > Math.abs(deltaY)) {
-  if (deltaX > 0) {
-    controls.current = 'right';
-    // Свайп вправо
-  } else {
-    controls.current = 'left';
-    // Свайп вліво
-  }
-} else {
-  if (deltaY > 0) {
-    controls.current = 'down';
-    // Свайп вниз
-  } else {
-    controls.current = 'up';
-      // Свайп вгору
-  }
-}
