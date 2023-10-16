@@ -17,12 +17,15 @@ document.onkeydown = (event) => {
 
 let startX, startY, endX, endY;
 
-canvas.addEventListener('touchstart', (e) => {
+window.addEventListener('touchstart', (e) => {
     startX = e.touches[0].clientX;
     startY = e.touches[0].clientY;
 });
 
-canvas.addEventListener('touchmove', (e) => {
+
+const deltaX = 0;
+const deltaY = 0;
+window.addEventListener('touchmove', (e) => {
     e.preventDefault(); // Забороніть прокрутку сторінки при свайпі
     endX = e.touches[0].clientX;
     endY = e.touches[0].clientY;
