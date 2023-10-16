@@ -1,30 +1,34 @@
 const canvas = document.getElementById('canvas');
 const wordHTML = document.getElementById('word');
+const translateHTML = document.getElementById('translate');
 const modalWin = document.getElementById('modal');
 const retryBtn = document.getElementById('retry');
 const message = document.getElementById('message');
 
-const words = ['GINGER', 'MELON', 'PEACH', 'APPLE', 'CABBAGE', 'BEET', 'PEAR', 'INDUSTRIOUS'];
+
+const translate = ['Імбир', 'Диня', 'Персик', 'Яблуко', 'Капуста', 'Буряк', 'Груша'];
+const words = ['GINGER', 'MELON', 'PEACH', 'APPLE', 'CABBAGE', 'BEET', 'PEAR'];
 let currentWord = 0;
 let word = words[0];
 let letters = [];
 let apples = [];
 let currentLetter = 0;
 
-const size = 13;
+const size = 10;
 let cellSize = 40;
 const gap = 5;
 
-if (window.innerWidth < 1600) {
+if(window.innerWidth < 600) {
+  cellSize = 25;
+} else if (window.innerWidth < 1600) {
   cellSize = 35;
-}
+} 
 
 const containerSize = cellSize * size + gap * (size-1);
 canvas.style.width = `${containerSize}px`; 
 canvas.style.height = `${containerSize}px`;
+
 const cells = [];
-
-
 let snake = [{x: 3, y: 0, block: null}, {x: 2, y: 0, block: null}, {x: 1, y: 0, block: null}, {x: 0, y: 0, block: null}];
 let alive = true;
 
@@ -98,13 +102,11 @@ const checks = (last) => {
   for(let i = 0; i < apples.length; i++) {
     if(snake[0].x == apples[i].x && snake[0].y == apples[i].y) {
       if(word[currentLetter] == apples[i].block.innerHTML) {
-        
-        let formerCL = currentLetter;
         let toDelete = apples[i].block;
         toDelete.classList.add('moving');
-        toDelete.style.left = '50%';
+        toDelete.style.left = `${parseInt(canvas.style.width)/2 - parseInt(toDelete.style.width)/2}px`;
         toDelete.style.top = '0px';
-        letters[formerCL].classList.add('active');
+        letters[currentLetter].classList.add('active');
         setTimeout(() => {
           canvas.removeChild(toDelete);
         }, 2000)
@@ -201,6 +203,7 @@ const initGame = () => {
     letters[i] = letter;
     wordHTML.appendChild(letter);
   }
+  translateHTML.innerHTML = translate[currentWord];
   generateApples();
   animate();
 

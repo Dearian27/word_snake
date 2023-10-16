@@ -22,9 +22,6 @@ window.addEventListener('touchstart', (e) => {
     startY = e.touches[0].clientY;
 });
 
-
-const deltaX = 0;
-const deltaY = 0;
 window.addEventListener('touchmove', (e) => {
     e.preventDefault(); // Забороніть прокрутку сторінки при свайпі
     endX = e.touches[0].clientX;
@@ -33,9 +30,6 @@ window.addEventListener('touchmove', (e) => {
     const deltaX = endX - startX;
     const deltaY = endY - startY;
 
-    // Опрацювання зміни координат пальця для керування грою
-    // Наприклад, зміна напрямку руху гравця у грі Змійка
-    
     if (Math.abs(deltaX) > Math.abs(deltaY)) {
       if (deltaX > 0) {
         controls.current = 'right';
